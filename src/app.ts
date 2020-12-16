@@ -4,10 +4,33 @@ const goToJoanaVideoElement = document.getElementById(
   "gotojoanavideo"
 ) as HTMLElement;
 const contentElement = document.getElementById("content-layout") as HTMLElement;
+const joanaVideoElement = document.getElementById(
+  "poetryVideo"
+) as HTMLVideoElement;
 
 function start() {
   setCSSProperties();
   addEventListeners();
+}
+
+function goToJoanaVideo() {
+  exitContentAnimation();
+  videoEnterAnimation();
+  autoplayVideo();
+}
+
+function exitContentAnimation() {
+  for (const element of Array.from(contentElement.children)) {
+    element.classList.add("exitAnimation");
+  }
+}
+
+function autoplayVideo(): void {
+  joanaVideoElement.play();
+}
+
+function videoEnterAnimation(): void {
+  joanaVideoElement.classList.add("enter");
 }
 
 function setCSSProperties() {
@@ -29,12 +52,6 @@ function setIndividualContentSizeCSSProperty() {
 
 function addEventListeners() {
   goToJoanaVideoElement.addEventListener("click", () => goToJoanaVideo());
-}
-
-function goToJoanaVideo() {
-  for (const element of Array.from(contentElement.children)) {
-    element.classList.add("exitAnimation");
-  }
 }
 
 // utils

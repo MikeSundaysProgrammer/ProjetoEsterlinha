@@ -63,6 +63,7 @@ button {
   --contentExitAnimationTranslationValue: calc(
     50vw + var(--halfIndividualContentWidth)
   );
+  --contentExitAnimationDuration: 1300ms;
 }
 
 .header {
@@ -171,7 +172,7 @@ button {
 
   width: 100%;
   height: 7rem;
-  max-width: 60ch;
+  max-width: 80ch;
 
   background: hsla(10, 100%, 70%);
   color: white;
@@ -197,15 +198,27 @@ button {
 }
 
 #gotojoanavideo.exitAnimation {
-  animation: joanaVideoExitAnimation var(--firstScreenEnterAnimationDuration)
+  animation: joanaVideoExitAnimation var(--contentExitAnimationDuration)
     var(--animationTimingFunctionSecondary);
   animation-fill-mode: var(--animationFillMode);
 }
 
 #gotomikepuzzle.exitAnimation {
-  animation: mikePuzzleExitAnimation var(--firstScreenEnterAnimationDuration)
+  animation: mikePuzzleExitAnimation var(--contentExitAnimationDuration)
     var(--animationTimingFunctionSecondary);
   animation-fill-mode: var(--animationFillMode);
+}
+
+#poetryVideo {
+  position: relative;
+  z-index: 1;
+
+  width: 90vw;
+  max-width: 30rem;
+
+  height: 10vh;
+
+  /*display: none;*/
 }
 
 @keyframes curtainLeftExitAnimation {
@@ -251,5 +264,11 @@ button {
     transform: translateX(
       calc(-1 * var(--contentExitAnimationTranslationValue))
     );
+  }
+}
+
+@media (min-width: 1400px) {
+  .individual-content {
+    height: 12rem;
   }
 }
