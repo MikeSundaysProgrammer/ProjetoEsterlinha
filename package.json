@@ -1,0 +1,13 @@
+{
+  "name": "ProjetoEsterlinha",
+  "version": "1.0.0",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  },
+  "scripts": {
+    "installAll": "yarn",
+    "dev": "tsc -w",
+    "build": "tsc",
+    "deploy": "installAll && build"
+  }
+}

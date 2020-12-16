@@ -1,0 +1,255 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Rochester&display=swap");
+
+/* dear reader sorry for the ugly animation and layout code but since
+  this is a small project no need to over-optimize. Maybe sass would
+  have helped... but to late for that!!! So I feel sorry for you,
+  but good luck:-) You are going to need it!*/
+
+body {
+  font-family: "Roboto", sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  appearance: none;
+  outline: none;
+  border: none;
+}
+
+:root {
+  --halfIndividualContentWidth: calc(var(--individualContentWidth) / 2);
+
+  --animationTimingFunctionPrimary: ease-in-out;
+  --animationTimingFunctionSecondary: linear;
+
+  --animationFillMode: forwards;
+
+  --firstScreenEnterAnimationDelay: 1s;
+  --firstScreenEnterAnimationDuration: 3s;
+
+  /* How small the animation is compared to the normal enter animation.
+      E.g: a value of 2 means it takes 1/2 of the duration*/
+  --secondScreenEnterAnimationRelativeDuration: 1.2;
+  --secondScreenEnterAnimationDuration: calc(
+    var(--firstScreenEnterAnimationDuration) /
+      var(--secondScreenEnterAnimationRelativeDuration)
+  );
+  --secondScreenEnterAnimationDelay: calc(
+    var(--firstScreenEnterAnimationDelay) +
+      calc(
+        var(--firstScreenEnterAnimationDuration) -
+          var(--secondScreenEnterAnimationDuration)
+      )
+  );
+
+  --contentEnterAnimationRelativeDuration: 1.8;
+  --contentEnterAnimationDuration: calc(
+    var(--firstScreenEnterAnimationDuration) /
+      var(--contentEnterAnimationRelativeDuration)
+  );
+  --contentEnterAnimationDelay: calc(
+    var(--firstScreenEnterAnimationDelay) +
+      calc(
+        var(--firstScreenEnterAnimationDuration) -
+          var(--contentEnterAnimationDuration)
+      )
+  );
+
+  --contentExitAnimationTranslationValue: calc(
+    50vw + var(--halfIndividualContentWidth)
+  );
+}
+
+.header {
+  font-family: "Rochester", cursive;
+}
+
+#content {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  animation: contentEnterAnimation var(--contentEnterAnimationDuration)
+    var(--animationTimingFunctionPrimary) var(--contentEnterAnimationDelay);
+  animation-fill-mode: var(--animationFillMode);
+
+  display: flex;
+  align-items: center;
+
+  --lateralPadding: 1rem;
+  padding-left: var(--lateralPadding);
+  padding-right: var(--lateralPadding);
+}
+
+#curtain {
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+
+  display: flex;
+}
+
+.partOfCurtain {
+  flex-grow: 1;
+  border: none;
+}
+
+#title {
+  z-index: 2;
+  position: relative;
+
+  color: white;
+
+  text-align: center;
+  font-size: 3rem;
+
+  --halfTitleHeight: calc(var(--titleHeight) / 2);
+  --yTranslationValue: calc(-1 * var(--halfTitleHeight));
+  top: 50vh;
+  transform: translateY(var(--yTranslationValue));
+
+  animation: titleEnterAnimation var(--firstScreenEnterAnimationDuration)
+    var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
+  animation-fill-mode: var(--animationFillMode);
+}
+
+#curtain {
+  overflow-x: hidden;
+}
+
+#curtainLeft {
+  animation: curtainLeftExitAnimation var(--firstScreenEnterAnimationDuration)
+    var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
+  animation-fill-mode: var(--animationFillMode);
+}
+
+#curtainRight {
+  animation: curtainRightExitAnimation var(--firstScreenEnterAnimationDuration)
+    var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
+  animation-fill-mode: var(--animationFillMode);
+}
+
+#background {
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  opacity: 0;
+
+  background: linear-gradient(to left, #f00000, #dc281e);
+
+  animation: backgroundEnterAnimation var(--secondScreenEnterAnimationDuration)
+    var(--animationTimingFunctionPrimary) var(--secondScreenEnterAnimationDelay);
+  animation-fill-mode: var(--animationFillMode);
+}
+
+#content-layout {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.individual-content {
+  cursor: pointer;
+
+  width: 100%;
+  height: 7rem;
+  max-width: 60ch;
+
+  background: hsla(10, 100%, 70%);
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.individual-content + .individual-content {
+  margin-top: 1.5rem;
+}
+
+.content-title {
+  margin: 0;
+  font-size: max(1.3rem, 2vw);
+}
+
+.content-description {
+  font-size: max(1rem, 1vw);
+}
+
+#gotojoanavideo.exitAnimation {
+  animation: joanaVideoExitAnimation var(--firstScreenEnterAnimationDuration)
+    var(--animationTimingFunctionSecondary);
+  animation-fill-mode: var(--animationFillMode);
+}
+
+#gotomikepuzzle.exitAnimation {
+  animation: mikePuzzleExitAnimation var(--firstScreenEnterAnimationDuration)
+    var(--animationTimingFunctionSecondary);
+  animation-fill-mode: var(--animationFillMode);
+}
+
+@keyframes curtainLeftExitAnimation {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes curtainRightExitAnimation {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes titleEnterAnimation {
+  to {
+    top: 1rem;
+    color: black;
+    transform: none;
+  }
+}
+
+@keyframes backgroundEnterAnimation {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentEnterAnimation {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mikePuzzleExitAnimation {
+  to {
+    transform: translateX(var(--contentExitAnimationTranslationValue));
+  }
+}
+
+@keyframes joanaVideoExitAnimation {
+  to {
+    transform: translateX(
+      calc(-1 * var(--contentExitAnimationTranslationValue))
+    );
+  }
+}
