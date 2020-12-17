@@ -1,12 +1,10 @@
 const rootElement = document.documentElement;
-const titleElement = document.getElementById("title") as HTMLElement;
-const goToJoanaVideoElement = document.getElementById(
-  "gotojoanavideo"
-) as HTMLElement;
-const contentElement = document.getElementById("content-layout") as HTMLElement;
-const joanaVideoElement = document.getElementById(
-  "poetryVideo"
-) as HTMLVideoElement;
+const titleElement = $("#title");
+const goToJoanaVideoElement = $("#gotojoanavideo");
+const contentElement = $("#content-layout");
+const joanaVideoElement = $("#poetryVideo") as HTMLVideoElement;
+const joanaVideoElementContainer = $("#poetryVideoContainer");
+const goBackToHomepageElement = $("#gobacktohomepage");
 
 function start() {
   setCSSProperties();
@@ -17,6 +15,10 @@ function goToJoanaVideo() {
   exitContentAnimation();
   videoEnterAnimation();
   autoplayVideo();
+}
+
+function joanaVideoEnded() {
+  setGoBackToHomepageElementToPrimaryState();
 }
 
 function exitContentAnimation() {
@@ -30,12 +32,17 @@ function autoplayVideo(): void {
 }
 
 function videoEnterAnimation(): void {
-  joanaVideoElement.classList.add("enter");
+  joanaVideoElementContainer.classList.add("enterAnimation");
+}
+
+function setGoBackToHomepageElementToPrimaryState() {
+  goBackToHomepageElement.dataset.state = "primary";
 }
 
 function setCSSProperties() {
   setTitleSizeCSSProperty();
   setIndividualContentSizeCSSProperty();
+  setPoetryVideoContainerSizeCSSProperty();
 }
 
 function setTitleSizeCSSProperty() {
@@ -50,8 +57,25 @@ function setIndividualContentSizeCSSProperty() {
   );
 }
 
+function setPoetryVideoContainerSizeCSSProperty() {
+  setElementDimensionCSSProperty(
+    joanaVideoElementContainer,
+    "poetryVideoContainer",
+    "height"
+  );
+}
+
 function addEventListeners() {
-  goToJoanaVideoElement.addEventListener("click", () => goToJoanaVideo());
+  const elementsToListeners: Array<
+    [element: HTMLElement, event: string, eventHandler: () => void]
+  > = [
+    [goToJoanaVideoElement, "click", goToJoanaVideo],
+    [joanaVideoElement, "ended", joanaVideoEnded],
+  ];
+
+  elementsToListeners.forEach(([element, event, eventHandler]) =>
+    element.addEventListener(event, eventHandler)
+  );
 }
 
 // utils
@@ -75,6 +99,10 @@ function setElementDimensionCSSProperty(
   const CSSPropertyToChange = `--${elementName}${capitalize(dimensionName)}`;
 
   rootElement.style.setProperty(CSSPropertyToChange, dimensionValueWithPx);
+}
+
+function $(selector: string) {
+  return document.querySelector(selector) as HTMLElement;
 }
 
 start();

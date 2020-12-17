@@ -5,10 +5,19 @@
   have helped... but to late for that!!! So I feel sorry for you,
   but good luck:-) You are going to need it!*/
 
+html,
 body {
   font-family: "Roboto", sans-serif;
-  height: 100vh;
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+}
+main {
+  height: 100vh;
 }
 
 * {
@@ -22,6 +31,10 @@ button {
 }
 
 :root {
+  --box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
   --halfIndividualContentWidth: calc(var(--individualContentWidth) / 2);
 
   --animationTimingFunctionPrimary: ease-in-out;
@@ -64,6 +77,16 @@ button {
     50vw + var(--halfIndividualContentWidth)
   );
   --contentExitAnimationDuration: 1300ms;
+
+  --poetryVideoEnterAnimationRelativeDuration: 1.4;
+  --poetryVideoEnterAnimationDuration: calc(
+    var(--contentExitAnimationDuration) /
+      var(--poetryVideoEnterAnimationRelativeDuration)
+  );
+  --poetryVideoEnterAnimationDelay: calc(
+    var(--contentExitAnimationDuration) -
+      var(--poetryVideoEnterAnimationDuration)
+  );
 }
 
 .header {
@@ -73,11 +96,12 @@ button {
 #content {
   opacity: 0;
   position: absolute;
+  z-index: 1;
+
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;
 
   animation: contentEnterAnimation var(--contentEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--contentEnterAnimationDelay);
@@ -85,6 +109,7 @@ button {
 
   display: flex;
   align-items: center;
+  justify-content: center;
 
   --lateralPadding: 1rem;
   padding-left: var(--lateralPadding);
@@ -176,10 +201,7 @@ button {
 
   background: hsla(10, 100%, 70%);
   color: white;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-
+  box-shadow: var(--box-shadow);
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
@@ -209,16 +231,56 @@ button {
   animation-fill-mode: var(--animationFillMode);
 }
 
-#poetryVideo {
-  position: relative;
+#poetryVideoContainer {
+  position: absolute;
   z-index: 1;
 
-  width: 90vw;
-  max-width: 30rem;
+  bottom: calc(-1 * var(--poetryVideoContainerHeight));
+  right: 0;
+  left: 0;
 
-  height: 10vh;
+  opacity: 0;
 
-  /*display: none;*/
+  display: flex;
+  justify-content: center;
+}
+
+#poetryVideoLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#poetryVideoContainer.enterAnimation {
+  animation: joanaVideoContainerElementEnterAnimation
+    var(--poetryVideoEnterAnimationDuration)
+    var(--animationTimingFunctionSecondary)
+    var(--poetryVideoEnterAnimationDelay);
+  animation-fill-mode: forwards;
+}
+
+#poetryVideo {
+  height: 50vh;
+  box-shadow: var(--box-shadow);
+}
+
+#poetryVideo:focus {
+  outline: none;
+}
+
+#gobacktohomepage {
+  cursor: pointer;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+#gobacktohomepage[data-state="secondary"] {
+  background-color: hsl(45, 100%, 52%);
+}
+
+#gobacktohomepage[data-state="primary"] {
+  background-color: hsl(225, 100%, 52%);
 }
 
 @keyframes curtainLeftExitAnimation {
@@ -267,8 +329,26 @@ button {
   }
 }
 
-@media (min-width: 1400px) {
+@keyframes joanaVideoContainerElementEnterAnimation {
+  to {
+    opacity: 1;
+    bottom: 50%;
+    transform: translateY(50%);
+  }
+}
+
+@media (min-width: 768px) {
   .individual-content {
     height: 12rem;
+  }
+
+  #content-layout {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .individual-content + .individual-content {
+    margin-top: 0;
+    margin-left: 2rem;
   }
 }
