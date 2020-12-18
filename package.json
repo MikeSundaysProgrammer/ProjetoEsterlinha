@@ -8,6 +8,6 @@
     "installAll": "yarn",
     "dev": "tsc -w",
     "build": "tsc",
-    "deploy": "yarn installAll && yarn build"
+    "deploy": "installAll && build"
   }
 }
