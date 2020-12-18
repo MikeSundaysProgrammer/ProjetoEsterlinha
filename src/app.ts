@@ -3,8 +3,11 @@ const titleElement = $("#title");
 const goToJoanaVideoElement = $("#gotojoanavideo");
 const contentElement = $("#content-layout");
 const joanaVideoElement = $<HTMLVideoElement>("#poetryVideo");
-const joanaVideoElementContainer = $("#poetryVideoContainer");
+const joanaVideoContainerElement = $("#poetryVideoContainer");
 const goBackToHomepageElement = $("#gobacktohomepage");
+const individualContentElements = Array.from(
+  contentElement.children
+) as HTMLElement[];
 
 function start() {
   setCSSProperties();
@@ -12,27 +15,23 @@ function start() {
 }
 
 function goToJoanaVideo() {
-  exitContentAnimation();
-  videoEnterAnimation();
+  goToJoanaVideoAnimations();
   autoplayVideo();
+}
+
+function goToJoanaVideoAnimations() {
+  enterAndExitAnimations(
+    [joanaVideoContainerElement],
+    individualContentElements
+  );
 }
 
 function joanaVideoEnded() {
   setGoBackToHomepageElementToPrimaryState();
 }
 
-function exitContentAnimation() {
-  for (const element of Array.from(contentElement.children)) {
-    element.classList.add("exitAnimation");
-  }
-}
-
 function autoplayVideo(): void {
   joanaVideoElement.play();
-}
-
-function videoEnterAnimation(): void {
-  joanaVideoElementContainer.classList.add("enterAnimation");
 }
 
 function setGoBackToHomepageElementToPrimaryState() {
@@ -59,13 +58,21 @@ function setIndividualContentSizeCSSProperty() {
 
 function setPoetryVideoContainerSizeCSSProperty() {
   setElementDimensionCSSProperty(
-    joanaVideoElementContainer,
+    joanaVideoContainerElement,
     "poetryVideoContainer",
     "height"
   );
 }
 
-function goBackToHomepage(): void {}
+function goBackToHomepage(): void {
+  goBackToHomepageAnimations();
+}
+
+function goBackToHomepageAnimations(): void {
+  enterAndExitAnimations(individualContentElements, [
+    joanaVideoContainerElement,
+  ]);
+}
 
 function addEventListeners(): void {
   const elementsToListeners: Array<
@@ -108,13 +115,25 @@ function enterAndExitAnimations(
   enterElements: HTMLElement[],
   exitElements: HTMLElement[]
 ) {
-  const elementsAnimationMap = new Map<string, HTMLElement[]>([
-    ["exitAnimation", exitElements],
-    ["enterAnimation", enterElements],
+  enum animationTypes {
+    EXIT = "exitAnimation",
+    ENTER = "enterAnimation",
+  }
+
+  const elementsAnimationMap = new Map<animationTypes, HTMLElement[]>([
+    [animationTypes.EXIT, exitElements],
+    [animationTypes.ENTER, enterElements],
   ]);
-  for (const [elements, animationClass] in elementsAnimationMap.entries()) {
-    for(const element of elements){
-      
+
+  for (const [animationClass, elements] of elementsAnimationMap.entries()) {
+    for (const element of elements)   {
+      const animationClassToBeRemoved =
+        animationClass === animationTypes.ENTER
+          ? animationTypes.EXIT
+          : animationTypes.ENTER;
+
+      element.classList.remove(animationClassToBeRemoved);
+      element.classList.add(animationClass);
     }
   }
 }

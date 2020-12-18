@@ -40,8 +40,6 @@ button {
   --animationTimingFunctionPrimary: ease-in-out;
   --animationTimingFunctionSecondary: linear;
 
-  --animationFillMode: forwards;
-
   --firstScreenEnterAnimationDelay: 1s;
   --firstScreenEnterAnimationDuration: 3s;
 
@@ -89,10 +87,6 @@ button {
   );
 }
 
-.header {
-  font-family: "Rochester", cursive;
-}
-
 #content {
   opacity: 0;
   position: absolute;
@@ -105,7 +99,7 @@ button {
 
   animation: contentEnterAnimation var(--contentEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--contentEnterAnimationDelay);
-  animation-fill-mode: var(--animationFillMode);
+  animation-fill-mode: forwards;
 
   display: flex;
   align-items: center;
@@ -140,6 +134,7 @@ button {
 
   text-align: center;
   font-size: max(2.5rem, 3vw);
+  font-family: "Rochester", cursive;
 
   --halfTitleHeight: calc(var(--titleHeight) / 2);
   --yTranslationValue: calc(-1 * var(--halfTitleHeight));
@@ -148,7 +143,7 @@ button {
 
   animation: titleEnterAnimation var(--firstScreenEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
-  animation-fill-mode: var(--animationFillMode);
+  animation-fill-mode: forwards;
 
   margin-top: 1.2rem;
 }
@@ -160,13 +155,13 @@ button {
 #curtainLeft {
   animation: curtainLeftExitAnimation var(--firstScreenEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
-  animation-fill-mode: var(--animationFillMode);
+  animation-fill-mode: forwards;
 }
 
 #curtainRight {
   animation: curtainRightExitAnimation var(--firstScreenEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
-  animation-fill-mode: var(--animationFillMode);
+  animation-fill-mode: forwards;
 }
 
 #background {
@@ -183,7 +178,7 @@ button {
 
   animation: backgroundEnterAnimation var(--secondScreenEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--secondScreenEnterAnimationDelay);
-  animation-fill-mode: var(--animationFillMode);
+  animation-fill-mode: forwards;
 }
 
 #content-layout {
@@ -206,6 +201,8 @@ button {
   box-shadow: var(--box-shadow);
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+
+  transition: transform 5s;
 }
 
 .individual-content + .individual-content {
@@ -224,13 +221,13 @@ button {
 #gotojoanavideo.exitAnimation {
   animation: joanaVideoExitAnimation var(--contentExitAnimationDuration)
     var(--animationTimingFunctionSecondary);
-  animation-fill-mode: var(--animationFillMode);
+  animation-fill-mode: forwards;
 }
 
 #gotomikepuzzle.exitAnimation {
   animation: mikePuzzleExitAnimation var(--contentExitAnimationDuration)
     var(--animationTimingFunctionSecondary);
-  animation-fill-mode: var(--animationFillMode);
+  animation-fill-mode: forwards;
 }
 
 #poetryVideoContainer {
@@ -245,6 +242,8 @@ button {
 
   display: flex;
   justify-content: center;
+
+  transition: bottom, transform 5s;
 }
 
 #poetryVideoLayout {
