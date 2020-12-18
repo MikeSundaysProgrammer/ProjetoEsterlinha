@@ -106,8 +106,11 @@ function setElementDimensionCSSProperty(
 
 function enterAndExitAnimations(
   enterElements: HTMLElement[],
-  exitElements: HTMLElement
-) {}
+  exitElements: HTMLElement[]
+) {
+  const elementsAnimationMap = new Map<string, elements:HTMLElement[]>()
+  for(const elem)
+}
 
 function $<T extends HTMLElement = HTMLElement>(selector: string) {
   return document.querySelector(selector) as T;
