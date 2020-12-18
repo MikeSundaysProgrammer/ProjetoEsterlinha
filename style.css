@@ -339,6 +339,7 @@ button {
 @keyframes mikePuzzleExitAnimation {
   to {
     transform: translateX(var(--contentExitAnimationTranslationValue));
+    display: none;
   }
 }
 
@@ -347,6 +348,7 @@ button {
     transform: translateX(
       calc(-1 * var(--contentExitAnimationTranslationValue))
     );
+    display: none;
   }
 }
 
