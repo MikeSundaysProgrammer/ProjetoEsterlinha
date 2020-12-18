@@ -139,7 +139,7 @@ button {
   color: white;
 
   text-align: center;
-  font-size: 3rem;
+  font-size: max(2.5rem, 3vw);
 
   --halfTitleHeight: calc(var(--titleHeight) / 2);
   --yTranslationValue: calc(-1 * var(--halfTitleHeight));
@@ -149,6 +149,8 @@ button {
   animation: titleEnterAnimation var(--firstScreenEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
   animation-fill-mode: var(--animationFillMode);
+
+  margin-top: 1.2rem;
 }
 
 #curtain {
@@ -270,17 +272,37 @@ button {
 
 #gobacktohomepage {
   cursor: pointer;
-  padding: 1rem;
-  margin-top: 1rem;
+
   font-size: 1.2rem;
+  text-transform: uppercase;
+
+  box-shadow: var(--box-shadow);
+
+  margin-top: 2rem;
+  padding: 1rem;
+
+  align-self: stretch;
+
+  transition: color, background-color 350ms ease-in-out;
+  transition: filter 50ms ease-in-out;
+}
+
+#gobacktohomepage:hover {
+  filter: brightness(1.1);
+}
+
+#gobacktohomepage:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
 }
 
 #gobacktohomepage[data-state="secondary"] {
   background-color: hsl(45, 100%, 52%);
+  color: hsl(20, 100%, 40%);
 }
 
 #gobacktohomepage[data-state="primary"] {
   background-color: hsl(225, 100%, 52%);
+  color: white;
 }
 
 @keyframes curtainLeftExitAnimation {
@@ -297,7 +319,7 @@ button {
 
 @keyframes titleEnterAnimation {
   to {
-    top: 1rem;
+    top: 0;
     color: black;
     transform: none;
   }

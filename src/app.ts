@@ -2,7 +2,7 @@ const rootElement = document.documentElement;
 const titleElement = $("#title");
 const goToJoanaVideoElement = $("#gotojoanavideo");
 const contentElement = $("#content-layout");
-const joanaVideoElement = $("#poetryVideo") as HTMLVideoElement;
+const joanaVideoElement = $<HTMLVideoElement>("#poetryVideo");
 const joanaVideoElementContainer = $("#poetryVideoContainer");
 const goBackToHomepageElement = $("#gobacktohomepage");
 
@@ -65,12 +65,15 @@ function setPoetryVideoContainerSizeCSSProperty() {
   );
 }
 
-function addEventListeners() {
+function goBackToHomepage(): void {}
+
+function addEventListeners(): void {
   const elementsToListeners: Array<
     [element: HTMLElement, event: string, eventHandler: () => void]
   > = [
     [goToJoanaVideoElement, "click", goToJoanaVideo],
     [joanaVideoElement, "ended", joanaVideoEnded],
+    [goBackToHomepageElement, "click", goBackToHomepage],
   ];
 
   elementsToListeners.forEach(([element, event, eventHandler]) =>
@@ -101,8 +104,13 @@ function setElementDimensionCSSProperty(
   rootElement.style.setProperty(CSSPropertyToChange, dimensionValueWithPx);
 }
 
-function $(selector: string) {
-  return document.querySelector(selector) as HTMLElement;
+function enterAndExitAnimations(
+  enterElements: HTMLElement[],
+  exitElements: HTMLElement
+) {}
+
+function $<T extends HTMLElement = HTMLElement>(selector: string) {
+  return document.querySelector(selector) as T;
 }
 
 start();
