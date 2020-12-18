@@ -108,8 +108,15 @@ function enterAndExitAnimations(
   enterElements: HTMLElement[],
   exitElements: HTMLElement[]
 ) {
-  const elementsAnimationMap = new Map<string, elements:HTMLElement[]>()
-  for(const elem)
+  const elementsAnimationMap = new Map<string, HTMLElement[]>([
+    ["exitAnimation", exitElements],
+    ["enterAnimation", enterElements],
+  ]);
+  for (const [elements, animationClass] in elementsAnimationMap.entries()) {
+    for(const element of elements){
+      
+    }
+  }
 }
 
 function $<T extends HTMLElement = HTMLElement>(selector: string) {
