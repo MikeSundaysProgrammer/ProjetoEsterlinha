@@ -87,6 +87,14 @@ button {
   );
 }
 
+.invisible {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
+}
+
 #content {
   opacity: 0;
   position: absolute;
@@ -97,7 +105,7 @@ button {
   left: 0;
   right: 0;
 
-  animation: contentEnterAnimation var(--contentEnterAnimationDuration)
+  animation: show var(--contentEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--contentEnterAnimationDelay);
   animation-fill-mode: forwards;
 
@@ -133,12 +141,14 @@ button {
   color: white;
 
   text-align: center;
+  text-shadow: 0 2px 1px #747474, -1px 3px 1px #767676, -2px 5px 1px #787878;
+
   font-size: max(2.5rem, 3vw);
   font-family: "Rochester", cursive;
 
   --halfTitleHeight: calc(var(--titleHeight) / 2);
-  --yTranslationValue: calc(-1 * var(--halfTitleHeight));
-  top: 50vh;
+  --negativeHalfTitleHeight: calc(-1 * var(--halfTitleHeight));
+  --yTranslationValue: calc(var(--negativeHalfTitleHeight) + 50vh);
   transform: translateY(var(--yTranslationValue));
 
   animation: titleEnterAnimation var(--firstScreenEnterAnimationDuration)
@@ -176,7 +186,7 @@ button {
 
   background: linear-gradient(to left, #f00000, #dc281e);
 
-  animation: backgroundEnterAnimation var(--secondScreenEnterAnimationDuration)
+  animation: show var(--secondScreenEnterAnimationDuration)
     var(--animationTimingFunctionPrimary) var(--secondScreenEnterAnimationDelay);
   animation-fill-mode: forwards;
 }
@@ -219,13 +229,13 @@ button {
 }
 
 #gotojoanavideo.exitAnimation {
-  animation: joanaVideoExitAnimation var(--contentExitAnimationDuration)
+  animation: slideOutLeft var(--contentExitAnimationDuration)
     var(--animationTimingFunctionSecondary);
   animation-fill-mode: forwards;
 }
 
 #gotomikepuzzle.exitAnimation {
-  animation: mikePuzzleExitAnimation var(--contentExitAnimationDuration)
+  animation: slideOutRight var(--contentExitAnimationDuration)
     var(--animationTimingFunctionSecondary);
   animation-fill-mode: forwards;
 }
@@ -235,29 +245,20 @@ button {
   z-index: 1;
 
   bottom: calc(-1 * var(--poetryVideoContainerHeight));
-  right: 0;
-  left: 0;
+  transform: translateX(50%);
 
-  opacity: 0;
+  right: 50%;
 
-  display: flex;
-  justify-content: center;
-
-  transition: bottom, transform 5s;
-}
-
-#poetryVideoLayout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  transition: all var(--poetryVideoEnterAnimationDuration)
+    var(--animationTimingFunctionSecondary)
+    var(--poetryVideoEnterAnimationDelay);
 }
 
 #poetryVideoContainer.enterAnimation {
-  animation: joanaVideoContainerElementEnterAnimation
-    var(--poetryVideoEnterAnimationDuration)
-    var(--animationTimingFunctionSecondary)
-    var(--poetryVideoEnterAnimationDelay);
-  animation-fill-mode: forwards;
+  --yTranslation: calc(
+    -1 * calc(50vh + calc(var(--poetryVideoContainerHeight) / 2))
+  );
+  transform: translate(50%, var(--yTranslation));
 }
 
 #poetryVideo {
@@ -277,21 +278,28 @@ button {
 
   box-shadow: var(--box-shadow);
 
-  margin-top: 2rem;
   padding: 1rem;
 
   align-self: stretch;
 
   transition: color, background-color 350ms ease-in-out;
   transition: filter 50ms ease-in-out;
+
+  display: block;
+
+  margin: 1.2rem auto 0;
 }
 
 #gobacktohomepage:hover {
   filter: brightness(1.1);
 }
 
-#gobacktohomepage:focus {
+#gobacktohomepage[data-state="primary"]:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}
+
+#gobacktohomepage[data-state="secondary"]:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
 }
 
 #gobacktohomepage[data-state="secondary"] {
@@ -318,45 +326,44 @@ button {
 
 @keyframes titleEnterAnimation {
   to {
-    top: 0;
-    color: black;
     transform: none;
   }
 }
 
-@keyframes backgroundEnterAnimation {
+@keyframes show {
   to {
     opacity: 1;
   }
 }
 
-@keyframes contentEnterAnimation {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes mikePuzzleExitAnimation {
+@keyframes slideOutRight {
   to {
     transform: translateX(var(--contentExitAnimationTranslationValue));
-    display: none;
+    opacity: 0;
   }
 }
 
-@keyframes joanaVideoExitAnimation {
+@keyframes slideOutLeft {
   to {
     transform: translateX(
       calc(-1 * var(--contentExitAnimationTranslationValue))
     );
-    display: none;
+    opacity: 0;
   }
 }
 
-@keyframes joanaVideoContainerElementEnterAnimation {
+@keyframes slideOutDown {
+  to {
+  }
+}
+
+@keyframes slideInUp {
   to {
     opacity: 1;
-    bottom: 50%;
-    transform: translateY(50%);
+    --yTranslation: calc(
+      -1 * calc(50vh + calc(var(--poetryVideoContainerHeight) / 2))
+    );
+    transform: translate(50%, var(--yTranslation));
   }
 }
 

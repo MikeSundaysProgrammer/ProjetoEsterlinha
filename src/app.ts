@@ -64,8 +64,14 @@ function setPoetryVideoContainerSizeCSSProperty() {
   );
 }
 
+function stopPoetryVideo() {
+  joanaVideoElement.currentTime = 0;
+  joanaVideoElement.pause();
+}
+
 function goBackToHomepage(): void {
   goBackToHomepageAnimations();
+  stopPoetryVideo();
 }
 
 function goBackToHomepageAnimations(): void {
@@ -126,7 +132,7 @@ function enterAndExitAnimations(
   ]);
 
   for (const [animationClass, elements] of elementsAnimationMap.entries()) {
-    for (const element of elements)   {
+    for (const element of elements) {
       const animationClassToBeRemoved =
         animationClass === animationTypes.ENTER
           ? animationTypes.EXIT
