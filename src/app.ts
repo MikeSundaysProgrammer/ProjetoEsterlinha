@@ -41,7 +41,6 @@ function setGoBackToHomepageElementToPrimaryState() {
 function setCSSProperties() {
   setTitleSizeCSSProperty();
   setIndividualContentSizeCSSProperty();
-  setPoetryVideoContainerHeightCSSProperty();
 }
 
 function setTitleSizeCSSProperty() {
@@ -53,14 +52,6 @@ function setIndividualContentSizeCSSProperty() {
     goToJoanaVideoElement,
     "individualContent",
     "width"
-  );
-}
-
-function setPoetryVideoContainerHeightCSSProperty() {
-  setElementDimensionCSSProperty(
-    joanaVideoContainerElement,
-    "poetryVideoContainer",
-    "height"
   );
 }
 
