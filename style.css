@@ -96,12 +96,17 @@ button {
   );
 }
 
+/* so we can access the computed value of the property inside javaScript */
+#access-second-screen-enter-animation-delay {
+  transition-delay: var(--secondScreenEnterAnimationDelay);
+  position: absolute; /* so it doesn't interfere with the other elements layout*/
+}
+
 .invisible {
   opacity: 0;
 }
 
 #content {
-  opacity: 0;
   position: absolute;
   z-index: 1;
 
@@ -109,10 +114,6 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-
-  animation: show var(--contentEnterAnimationDuration)
-    var(--animationTimingFunctionPrimary) var(--contentEnterAnimationDelay);
-  animation-fill-mode: forwards;
 
   display: flex;
   align-items: center;
@@ -124,7 +125,7 @@ button {
 }
 
 #curtain {
-  z-index: 1;
+  z-index: 2;
   top: 0;
   bottom: 0;
   left: 0;
@@ -132,6 +133,8 @@ button {
   position: absolute;
 
   display: flex;
+
+  pointer-events: none;
 }
 
 .partOfCurtain {
@@ -140,7 +143,7 @@ button {
 }
 
 #title {
-  z-index: 2;
+  z-index: 3;
   position: relative;
 
   color: white;
@@ -217,11 +220,19 @@ button {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 
-  transition: transform 5s;
+  transform: translateX(
+    calc(var(--slideModifier, 1) * var(--contentExitAnimationTranslationValue))
+  );
 }
 
 .individual-content + .individual-content {
   margin-top: 1.5rem;
+}
+
+.individual-content.enterAnimation {
+  transform: translateX(0);
+  transition: all var(--contentEnterAnimationDuration)
+    var(--animationTimingFunctionPrimary);
 }
 
 .content-title {
@@ -231,18 +242,6 @@ button {
 
 .content-description {
   font-size: max(1rem, 1vw);
-}
-
-#gotojoanavideo.exitAnimation {
-  animation: slideOutLeft var(--contentExitAnimationDuration)
-    var(--animationTimingFunctionSecondary);
-  animation-fill-mode: forwards;
-}
-
-#gotomikepuzzle.exitAnimation {
-  animation: slideOutRight var(--contentExitAnimationDuration)
-    var(--animationTimingFunctionSecondary);
-  animation-fill-mode: forwards;
 }
 
 #poetryVideoContainer {
@@ -334,22 +333,6 @@ button {
 @keyframes show {
   to {
     opacity: 1;
-  }
-}
-
-@keyframes slideOutRight {
-  to {
-    transform: translateX(var(--contentExitAnimationTranslationValue));
-    opacity: 0;
-  }
-}
-
-@keyframes slideOutLeft {
-  to {
-    transform: translateX(
-      calc(-1 * var(--contentExitAnimationTranslationValue))
-    );
-    opacity: 0;
   }
 }
 

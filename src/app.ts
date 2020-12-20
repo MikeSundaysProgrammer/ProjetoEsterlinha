@@ -5,6 +5,9 @@ const contentElement = $("#content-layout");
 const joanaVideoElement = $<HTMLVideoElement>("#poetryVideo");
 const joanaVideoContainerElement = $("#poetryVideoContainer");
 const goBackToHomepageElement = $("#gobacktohomepage");
+const accessSecondScreenEnterAnimationDelayElement = $(
+  "#access-second-screen-enter-animation-delay"
+);
 const individualContentElements = Array.from(
   contentElement.children
 ) as HTMLElement[];
@@ -12,6 +15,11 @@ const individualContentElements = Array.from(
 function start() {
   setCSSProperties();
   addEventListeners();
+  startEnterAndExitAnimations();
+}
+
+function startEnterAndExitAnimations() {
+  enterAndExitAnimations([], individualContentElements);
 }
 
 function goToJoanaVideo() {
@@ -71,6 +79,23 @@ function goBackToHomepageAnimations(): void {
   ]);
 }
 
+function secondScreenEnterAnimation() {
+  enterAndExitAnimations(individualContentElements, []);
+}
+
+function setSecondScreenEnterAnimationEventListener() {
+  const secondScreenEnterAnimationDelay = parseInt(
+    getComputedStyle(
+      accessSecondScreenEnterAnimationDelayElement
+    ).transitionDelay.replace("s", "")
+  );
+
+  setTimeout(
+    secondScreenEnterAnimation,
+    secondScreenEnterAnimationDelay * 1000
+  );
+}
+
 function addEventListeners(): void {
   const elementsToListeners: Array<
     [element: HTMLElement, event: string, eventHandler: () => void]
@@ -83,6 +108,8 @@ function addEventListeners(): void {
   elementsToListeners.forEach(([element, event, eventHandler]) =>
     element.addEventListener(event, eventHandler)
   );
+
+  setSecondScreenEnterAnimationEventListener();
 }
 
 // utils
