@@ -160,7 +160,7 @@ button {
     var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
   animation-fill-mode: forwards;
 
-  margin-top: var(--titleTopMargin);
+  margin: var(--titleTopMargin) 0;
 }
 
 #curtain {
