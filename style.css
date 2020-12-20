@@ -384,6 +384,6 @@ button {
   }
 
   #poetryVideoContainer.enterAnimation {
-    top: calc(var(--titleHeightWithMargins));
+    top: calc(50% - calc(var(--poetryVideoContainerHeight) / 2.5));
   }
 }
