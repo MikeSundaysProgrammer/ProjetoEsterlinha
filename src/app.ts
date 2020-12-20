@@ -135,4 +135,11 @@ function $<T extends HTMLElement = HTMLElement>(selector: string) {
   return document.querySelector(selector) as T;
 }
 
-window.onload = start;
+function ready(fn: () => void) {
+  if (document.readyState === "complete") {
+    return fn();
+  }
+  document.addEventListener("interactive", fn, false);
+}
+
+ready(start);
