@@ -382,4 +382,8 @@ button {
     margin-top: 0;
     margin-left: 2rem;
   }
+
+  #poetryVideoContainer.enterAnimation {
+    top: calc(var(--titleHeightWithMargins));
+  }
 }
