@@ -260,7 +260,7 @@ button {
 }
 
 #poetryVideoContainer.enterAnimation {
-  --absoluteYTranslation: calc(100vh - var(--titleHeightWithMargins));
+  --absoluteYTranslation: calc(100vh - 90px);
   --yTranslation: calc(-1 * var(--absoluteYTranslation));
   transform: translateY(var(--yTranslation));
 }
