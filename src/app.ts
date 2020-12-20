@@ -135,4 +135,4 @@ function $<T extends HTMLElement = HTMLElement>(selector: string) {
   return document.querySelector(selector) as T;
 }
 
-document.addEventListener("DOMContentLoaded", start);
+window.onload = start;
