@@ -42,7 +42,6 @@ function setCSSProperties() {
   setTitleSizeCSSProperty();
   setIndividualContentSizeCSSProperty();
   setPoetryVideoContainerHeightCSSProperty();
-  setPoetryVideoContainerWidthCSSProperty();
 }
 
 function setTitleSizeCSSProperty() {
