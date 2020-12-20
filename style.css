@@ -39,6 +39,9 @@ button {
   --titleVerticalMargin: calc(var(--titleTopMargin) * 2);
   --titleHeightWithMargins: calc(var(--titleVerticalMargin) + var(--titleHeight));
 
+  --poetryVideoContainerHeight: 426px;
+  --poetryVideoContainerWidth: 240px;
+
   --halfIndividualContentWidth: calc(var(--individualContentWidth) / 2);
 
   --animationTimingFunctionPrimary: ease-in-out;

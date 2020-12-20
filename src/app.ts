@@ -41,7 +41,6 @@ function setGoBackToHomepageElementToPrimaryState() {
 function setCSSProperties() {
   setTitleSizeCSSProperty();
   setIndividualContentSizeCSSProperty();
-  setPoetryVideoContainerSizeCSSProperty();
 }
 
 function setTitleSizeCSSProperty() {
@@ -52,19 +51,6 @@ function setIndividualContentSizeCSSProperty() {
   setElementDimensionCSSProperty(
     goToJoanaVideoElement,
     "individualContent",
-    "width"
-  );
-}
-
-function setPoetryVideoContainerSizeCSSProperty() {
-  setElementDimensionCSSProperty(
-    joanaVideoContainerElement,
-    "poetryVideoContainer",
-    "height"
-  );
-  setElementDimensionCSSProperty(
-    joanaVideoContainerElement,
-    "poetryVideoContainer",
     "width"
   );
 }
@@ -126,26 +112,18 @@ function enterAndExitAnimations(
   enterElements: HTMLElement[],
   exitElements: HTMLElement[]
 ) {
-  enum animationTypes {
+  enum animationClasses {
     EXIT = "exitAnimation",
     ENTER = "enterAnimation",
+    INVISIBLE = "invisible",
   }
-
-  const elementsAnimationMap = new Map<animationTypes, HTMLElement[]>([
-    [animationTypes.EXIT, exitElements],
-    [animationTypes.ENTER, enterElements],
-  ]);
-
-  for (const [animationClass, elements] of elementsAnimationMap.entries()) {
-    for (const element of elements) {
-      const animationClassToBeRemoved =
-        animationClass === animationTypes.ENTER
-          ? animationTypes.EXIT
-          : animationTypes.ENTER;
-
-      element.classList.remove(animationClassToBeRemoved);
-      element.classList.add(animationClass);
-    }
+  for (const enterElement of enterElements) {
+    enterElement.classList.add(animationClasses.ENTER);
+    enterElement.classList.remove(animationClasses.INVISIBLE);
+  }
+  for (const exitElement of exitElements) {
+    exitElement.classList.add(animationClasses.INVISIBLE);
+    exitElement.classList.remove(animationClasses.ENTER);
   }
 }
 
