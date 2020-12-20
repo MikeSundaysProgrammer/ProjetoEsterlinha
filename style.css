@@ -249,7 +249,7 @@ button {
   position: absolute;
   z-index: 1;
 
-  bottom: calc(-1 * var(--poetryVideoContainerHeight));
+  top: 100vh;
 
   --halfWidth: calc(var(--poetryVideoContainerWidth) / 2);
   right: calc(50% - var(--halfWidth));
@@ -260,7 +260,7 @@ button {
 }
 
 #poetryVideoContainer.enterAnimation {
-  transform: translateY(calc(-1 * calc(100vh - 90px)));
+  top: calc(var(--titleHeightWithMargins));
 }
 
 #poetryVideo {
