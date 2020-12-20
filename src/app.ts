@@ -62,6 +62,11 @@ function setPoetryVideoContainerSizeCSSProperty() {
     "poetryVideoContainer",
     "height"
   );
+  setElementDimensionCSSProperty(
+    joanaVideoContainerElement,
+    "poetryVideoContainer",
+    "width"
+  );
 }
 
 function stopPoetryVideo() {
@@ -109,8 +114,8 @@ function setElementDimensionCSSProperty(
   dimensionName: "width" | "height"
 ) {
   const dimensionValue =
-    dimensionName === "width" ? element.clientWidth : element.clientHeight;
-  const dimensionValueWithPx = dimensionValue.toString() + "px";
+    dimensionName === "width" ? element.offsetWidth : element.offsetHeight;
+  const dimensionValueWithPx = createPixelMeasure(dimensionValue);
 
   const CSSPropertyToChange = `--${elementName}${capitalize(dimensionName)}`;
 
@@ -144,8 +149,12 @@ function enterAndExitAnimations(
   }
 }
 
+function createPixelMeasure(value: number) {
+  return value.toString() + "px";
+}
+
 function $<T extends HTMLElement = HTMLElement>(selector: string) {
   return document.querySelector(selector) as T;
 }
 
-start();
+document.addEventListener("DOMContentLoaded", start);
