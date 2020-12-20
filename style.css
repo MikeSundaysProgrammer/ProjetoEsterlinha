@@ -37,9 +37,12 @@ button {
 
   --titleTopMargin: 1.2rem;
   --titleVerticalMargin: calc(var(--titleTopMargin) * 2);
-  --titleHeightWithMargins: calc(var(--titleVerticalMargin) + var(--titleHeight));
+  --titleHeightWithMargins: calc(
+    var(--titleVerticalMargin) + var(--titleHeight)
+  );
 
   --poetryVideoContainerWidth: 240px;
+  --poetryVideoContainerHeight: 503px;
 
   --halfIndividualContentWidth: calc(var(--individualContentWidth) / 2);
 
@@ -381,4 +384,3 @@ button {
     margin-left: 2rem;
   }
 }
-2
