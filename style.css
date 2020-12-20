@@ -35,6 +35,10 @@ button {
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
+  --titleTopMargin: 1.2rem;
+  --titleVerticalMargin: calc(var(--titleTopMargin) * 2);
+  --titleHeightWithMargins: calc(var(--titleVerticalMargin) + var(--titleHeight));
+
   --halfIndividualContentWidth: calc(var(--individualContentWidth) / 2);
 
   --animationTimingFunctionPrimary: ease-in-out;
@@ -151,7 +155,7 @@ button {
     var(--animationTimingFunctionPrimary) var(--firstScreenEnterAnimationDelay);
   animation-fill-mode: forwards;
 
-  margin-top: 1.2rem;
+  margin-top: var(--titleTopMargin);
 }
 
 #curtain {
@@ -251,9 +255,7 @@ button {
 }
 
 #poetryVideoContainer.enterAnimation {
-  --yTranslation: calc(
-    -1 * calc(50vh + calc(var(--poetryVideoContainerHeight) / 2))
-  );
+  --yTranslation: calc(-1 * calc(100vh - var(--titleHeightWithMargins)));
   transform: translateY(var(--yTranslation));
 }
 
@@ -377,3 +379,4 @@ button {
     margin-left: 2rem;
   }
 }
+2
