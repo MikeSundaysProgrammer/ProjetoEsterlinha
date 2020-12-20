@@ -119,9 +119,7 @@ button {
   align-items: center;
   justify-content: center;
 
-  --lateralPadding: 1rem;
-  padding-left: var(--lateralPadding);
-  padding-right: var(--lateralPadding);
+  padding: 0 1rem;
 }
 
 #curtain {
