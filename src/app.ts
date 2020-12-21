@@ -22,6 +22,22 @@ function start() {
   setCSSProperties();
   addEventListeners();
   startEnterAndExitAnimations();
+  setTitleText();
+}
+
+function setTitleText() {
+  const currentURL = new URL(window.location.href);
+  const currentURLParams = currentURL.searchParams;
+  const currentURLUserName = currentURLParams.get("username");
+
+  const titleText = currentURLUserName
+    ? makeHappyChristmasMessage(currentURLUserName)
+    : "Hoje N'tal Família";
+  titleElement.textContent = titleText;
+}
+
+function makeHappyChristmasMessage(personName: string) {
+  return `Feliz Natal ${capitalize(personName)}!`;
 }
 
 function startEnterAndExitAnimations() {

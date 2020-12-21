@@ -10,7 +10,8 @@
 
 <body>
   <header>
-    <h1 id="title" class="header">Hoje N'tal Família</h1>
+    <!--The #title text is defined in the ts file-->
+    <h1 id="title" class="header"></h1>
   </header>
   <main>
     <div id="curtain">
@@ -40,12 +41,14 @@
         <!--The video aspect ratio is equal to 1.775-->
         <video src="./assets/videos/poetryVideo.mp4" controls id="poetryVideo" preload="auto" width="220" height="390.5">
           O teu browser é demasiado antiquado👵 por isso não suporta este
-          formato. Por favor mude de browser...
+          formato de vídeo. Por favor mude de browser🙄...
         </video>
         <button id="gobacktohomepage" data-state="secondary">Voltar</button>
       </div>
     </article>
     <div id="background"></div>
+
+    <!--Elements that allow the ts file to access the calculated css custom properties-->
     <div id="access-content-first-enter-animation-delay" class="no-interfere"></div>
     <div id="access-poetry-video-enter-animation-delay" class="no-interfere"></div>
     <div id="access-poetry-video-exit-animation-delay" class="no-interfere"></div>
