@@ -19,10 +19,10 @@ const individualContentElements = Array.from(
 ) as HTMLElement[];
 
 function start() {
+  setTitleText();
   setCSSProperties();
   addEventListeners();
   startEnterAndExitAnimations();
-  setTitleText();
 }
 
 function setTitleText() {
@@ -30,10 +30,8 @@ function setTitleText() {
   const currentURLParams = currentURL.searchParams;
   const currentURLUserName = currentURLParams.get("username");
 
-  const titleText = currentURLUserName
-    ? makeHappyChristmasMessage(currentURLUserName)
-    : "Hoje N'tal Família";
-  titleElement.textContent = titleText;
+  if (currentURLUserName)
+    titleElement.textContent = makeHappyChristmasMessage(currentURLUserName);
 }
 
 function makeHappyChristmasMessage(personName: string) {
