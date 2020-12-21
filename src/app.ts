@@ -5,8 +5,8 @@ const contentElement = $("#content-layout");
 const joanaVideoElement = $<HTMLVideoElement>("#poetryVideo");
 const joanaVideoContainerElement = $("#poetryVideoContainer");
 const goBackToHomepageElement = $("#gobacktohomepage");
-const accessSecondScreenEnterAnimationDelayElement = $(
-  "#access-second-screen-enter-animation-delay"
+const accessContentEnterAnimationDelayElement = $(
+  "#access-content-enter-animation-delay"
 );
 const individualContentElements = Array.from(
   contentElement.children
@@ -83,17 +83,14 @@ function secondScreenEnterAnimation() {
   enterAndExitAnimations(individualContentElements, []);
 }
 
-function setSecondScreenEnterAnimationEventListener() {
-  const secondScreenEnterAnimationDelay = parseInt(
+function setContentEnterAnimationEventListener() {
+  const contentEnterAnimationDelay = parseInt(
     getComputedStyle(
-      accessSecondScreenEnterAnimationDelayElement
+      accessContentEnterAnimationDelayElement
     ).transitionDelay.replace("s", "")
   );
 
-  setTimeout(
-    secondScreenEnterAnimation,
-    secondScreenEnterAnimationDelay * 1000
-  );
+  setTimeout(secondScreenEnterAnimation, contentEnterAnimationDelay * 1000);
 }
 
 function addEventListeners(): void {
@@ -109,7 +106,7 @@ function addEventListeners(): void {
     element.addEventListener(event, eventHandler)
   );
 
-  setSecondScreenEnterAnimationEventListener();
+  setContentEnterAnimationEventListener();
 }
 
 // utils
@@ -140,17 +137,21 @@ function enterAndExitAnimations(
   exitElements: HTMLElement[]
 ) {
   enum animationClasses {
-    EXIT = "exitAnimation",
     ENTER = "enterAnimation",
     INVISIBLE = "invisible",
+    VISIBLE = "visible",
   }
+
+  const enterClasses: string[] = [animationClasses.ENTER];
+  const exitClasses: string[] = [];
+
   for (const enterElement of enterElements) {
-    enterElement.classList.add(animationClasses.ENTER);
-    enterElement.classList.remove(animationClasses.INVISIBLE);
+    enterElement.classList.add(...enterClasses);
+    enterElement.classList.remove(...exitClasses);
   }
   for (const exitElement of exitElements) {
-    exitElement.classList.add(animationClasses.INVISIBLE);
-    exitElement.classList.remove(animationClasses.ENTER);
+    exitElement.classList.add(...exitClasses);
+    exitElement.classList.remove(...enterClasses);
   }
 }
 

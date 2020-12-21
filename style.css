@@ -46,10 +46,10 @@ button {
 
   --halfIndividualContentWidth: calc(var(--individualContentWidth) / 2);
 
-  --animationTimingFunctionPrimary: ease-in-out;
+  --animationTimingFunctionPrimary: ease-in;
   --animationTimingFunctionSecondary: linear;
 
-  --firstScreenEnterAnimationDelay: 1s;
+  --firstScreenEnterAnimationDelay: 0.3s;
   --firstScreenEnterAnimationDuration: 3s;
 
   /* How small the animation is compared to the normal enter animation.
@@ -67,17 +67,26 @@ button {
       )
   );
 
-  --contentEnterAnimationRelativeDuration: 1.8;
-  --contentEnterAnimationDuration: calc(
+  --contentEnterAnimationRelativeDurationInTheFirstScreen: 2;
+  --contentEnterAnimationDurationInTheFirstScreen: calc(
     var(--firstScreenEnterAnimationDuration) /
-      var(--contentEnterAnimationRelativeDuration)
+      var(--contentEnterAnimationRelativeDurationInTheFirstScreen) ;
+  );
+
+  --contentEnterAnimationDurationOutsideTheFirstScreen: 1s;
+
+  --contentEnterAnimationDuration: calc(
+    var(--contentEnterAnimationDurationInTheFirstScreen) +
+      var(--contentEnterAnimationDurationOutsideTheFirstScreen)
+  );
+
+  --durationInTheFirstScreenBeforeTheStartOfTheContentEnterAnimation: calc(
+    var(--firstScreenEnterAnimationDuration) -
+      var(--contentEnterAnimationDurationInTheFirstScreen)
   );
   --contentEnterAnimationDelay: calc(
     var(--firstScreenEnterAnimationDelay) +
-      calc(
-        var(--firstScreenEnterAnimationDuration) -
-          var(--contentEnterAnimationDuration)
-      )
+      var(--durationInTheFirstScreenBeforeTheStartOfTheContentEnterAnimation)
   );
 
   --contentExitAnimationTranslationValue: calc(
@@ -97,13 +106,9 @@ button {
 }
 
 /* so we can access the computed value of the property inside javaScript */
-#access-second-screen-enter-animation-delay {
-  transition-delay: var(--secondScreenEnterAnimationDelay);
+#access-content-enter-animation-delay {
+  transition-delay: var(--contentEnterAnimationDelay);
   position: absolute; /* so it doesn't interfere with the other elements layout*/
-}
-
-.invisible {
-  opacity: 0;
 }
 
 #content {
@@ -218,9 +223,14 @@ button {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 
-  transform: translateX(
-    calc(var(--slideModifier, 1) * var(--contentExitAnimationTranslationValue))
+  --xTranslation: calc(
+    var(--slideModifier, 1) * var(--contentExitAnimationTranslationValue)
   );
+  transform: translateX(var(--xTranslation));
+  transition: all var(--contentEnterAnimationDuration)
+    var(--animationTimingFunctionPrimary);
+
+  opacity: 0;
 }
 
 .individual-content + .individual-content {
@@ -229,8 +239,7 @@ button {
 
 .individual-content.enterAnimation {
   transform: translateX(0);
-  transition: all var(--contentEnterAnimationDuration)
-    var(--animationTimingFunctionPrimary);
+  opacity: 1;
 }
 
 .content-title {
