@@ -246,7 +246,7 @@ button {
 }
 
 .individual-content + .individual-content {
-  margin-top: 1.5rem;
+  margin-top: 5rem;
 }
 
 .individual-content.enterAnimation {
