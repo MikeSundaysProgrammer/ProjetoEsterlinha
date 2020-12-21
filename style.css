@@ -67,13 +67,13 @@ button {
       )
   );
 
-  --contentEnterAnimationRelativeDurationInTheFirstScreen: 2;
+  --contentEnterAnimationRelativeDurationInTheFirstScreen: 1.5;
   --contentEnterAnimationDurationInTheFirstScreen: calc(
     var(--firstScreenEnterAnimationDuration) /
       var(--contentEnterAnimationRelativeDurationInTheFirstScreen) ;
   );
 
-  --contentEnterAnimationDurationOutsideTheFirstScreen: 1s;
+  --contentEnterAnimationDurationOutsideTheFirstScreen: 0.5s;
 
   --contentEnterAnimationDuration: calc(
     var(--contentEnterAnimationDurationInTheFirstScreen) +
@@ -84,31 +84,43 @@ button {
     var(--firstScreenEnterAnimationDuration) -
       var(--contentEnterAnimationDurationInTheFirstScreen)
   );
-  --contentEnterAnimationDelay: calc(
+  --contentFirstEnterAnimationDelay: calc(
     var(--firstScreenEnterAnimationDelay) +
       var(--durationInTheFirstScreenBeforeTheStartOfTheContentEnterAnimation)
   );
 
-  --contentExitAnimationTranslationValue: calc(
-    50vw + var(--halfIndividualContentWidth)
-  );
-  --contentExitAnimationDuration: 1300ms;
-
-  --poetryVideoEnterAnimationRelativeDuration: 1.4;
+  --poetryVideoEnterAnimationRelativeDuration: 1.7;
   --poetryVideoEnterAnimationDuration: calc(
-    var(--contentExitAnimationDuration) /
+    var(--contentEnterAnimationDuration) /
       var(--poetryVideoEnterAnimationRelativeDuration)
   );
   --poetryVideoEnterAnimationDelay: calc(
-    var(--contentExitAnimationDuration) -
+    var(--contentEnterAnimationDuration) -
+      var(--poetryVideoEnterAnimationDuration)
+  );
+  --poetryVideoExitAnimationDelay: calc(
+    var(--contentEnterAnimationDuration) -
       var(--poetryVideoEnterAnimationDuration)
   );
 }
 
-/* so we can access the computed value of the property inside javaScript */
-#access-content-enter-animation-delay {
-  transition-delay: var(--contentEnterAnimationDelay);
-  position: absolute; /* so it doesn't interfere with the other elements layout*/
+/* so we can access the computed value of these css custom properties inside the ts file */
+#access-content-first-enter-animation-delay {
+  transition-delay: var(--contentFirstEnterAnimationDelay);
+}
+
+#access-poetry-video-enter-animation-delay {
+  transition-delay: var(--poetryVideoEnterAnimationDelay);
+}
+
+#access-poetry-video-exit-animation-delay {
+  transition-delay: var(--poetryVideoExitAnimationDelay);
+}
+
+.no-interfere {
+  opacity: 0;
+  position: absolute;
+  z-index: -1000;
 }
 
 #content {
@@ -223,10 +235,10 @@ button {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 
-  --xTranslation: calc(
-    var(--slideModifier, 1) * var(--contentExitAnimationTranslationValue)
-  );
+  --absoluteXTransition: calc(50vw + var(--halfIndividualContentWidth));
+  --xTranslation: calc(var(--slideModifier, 1) * var(--absoluteXTransition));
   transform: translateX(var(--xTranslation));
+
   transition: all var(--contentEnterAnimationDuration)
     var(--animationTimingFunctionPrimary);
 
@@ -261,8 +273,7 @@ button {
   right: calc(50% - var(--halfWidth));
 
   transition: all var(--poetryVideoEnterAnimationDuration)
-    var(--animationTimingFunctionSecondary)
-    var(--poetryVideoEnterAnimationDelay);
+    var(--animationTimingFunctionSecondary);
 }
 
 #poetryVideoContainer.enterAnimation {
@@ -340,21 +351,6 @@ button {
 @keyframes show {
   to {
     opacity: 1;
-  }
-}
-
-@keyframes slideOutDown {
-  to {
-  }
-}
-
-@keyframes slideInUp {
-  to {
-    opacity: 1;
-    --yTranslation: calc(
-      -1 * calc(50vh + calc(var(--poetryVideoContainerHeight) / 2))
-    );
-    transform: translateY(var(--yTranslation));
   }
 }
 

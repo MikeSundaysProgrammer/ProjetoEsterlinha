@@ -5,8 +5,14 @@ const contentElement = $("#content-layout");
 const joanaVideoElement = $<HTMLVideoElement>("#poetryVideo");
 const joanaVideoContainerElement = $("#poetryVideoContainer");
 const goBackToHomepageElement = $("#gobacktohomepage");
-const accessContentEnterAnimationDelayElement = $(
-  "#access-content-enter-animation-delay"
+const accessContentFirstEnterAnimationDelayElement = $(
+  "#access-content-first-enter-animation-delay"
+);
+const accessPoetryVideoEnterAnimationDelayElement = $(
+  "#access-poetry-video-enter-animation-delay"
+);
+const accessPoetryVideoExitAnimationDelayElement = $(
+  "#access-poetry-video-exit-animation-delay"
 );
 const individualContentElements = Array.from(
   contentElement.children
@@ -19,19 +25,37 @@ function start() {
 }
 
 function startEnterAndExitAnimations() {
-  enterAndExitAnimations([], individualContentElements);
-}
-
-function goToJoanaVideo() {
-  goToJoanaVideoAnimations();
-  autoplayVideo();
+  enterAndExitAnimations(individualContentElements, [], {
+    elementToGetValue: accessContentFirstEnterAnimationDelayElement,
+    type: "enter",
+  });
 }
 
 function goToJoanaVideoAnimations() {
   enterAndExitAnimations(
     [joanaVideoContainerElement],
-    individualContentElements
+    individualContentElements,
+    {
+      elementToGetValue: accessPoetryVideoEnterAnimationDelayElement,
+      type: "enter",
+    }
   );
+}
+
+function goBackToHomepageAnimations(): void {
+  enterAndExitAnimations(
+    individualContentElements,
+    [joanaVideoContainerElement],
+    {
+      elementToGetValue: accessPoetryVideoExitAnimationDelayElement,
+      type: "exit",
+    }
+  );
+}
+
+function goToJoanaVideo() {
+  goToJoanaVideoAnimations();
+  autoplayVideo();
 }
 
 function joanaVideoEnded() {
@@ -73,26 +97,6 @@ function goBackToHomepage(): void {
   stopPoetryVideo();
 }
 
-function goBackToHomepageAnimations(): void {
-  enterAndExitAnimations(individualContentElements, [
-    joanaVideoContainerElement,
-  ]);
-}
-
-function secondScreenEnterAnimation() {
-  enterAndExitAnimations(individualContentElements, []);
-}
-
-function setContentEnterAnimationEventListener() {
-  const contentEnterAnimationDelay = parseInt(
-    getComputedStyle(
-      accessContentEnterAnimationDelayElement
-    ).transitionDelay.replace("s", "")
-  );
-
-  setTimeout(secondScreenEnterAnimation, contentEnterAnimationDelay * 1000);
-}
-
 function addEventListeners(): void {
   const elementsToListeners: Array<
     [element: HTMLElement, event: string, eventHandler: () => void]
@@ -105,8 +109,6 @@ function addEventListeners(): void {
   elementsToListeners.forEach(([element, event, eventHandler]) =>
     element.addEventListener(event, eventHandler)
   );
-
-  setContentEnterAnimationEventListener();
 }
 
 // utils
@@ -132,26 +134,67 @@ function setElementDimensionCSSProperty(
   rootElement.style.setProperty(CSSPropertyToChange, dimensionValueWithPx);
 }
 
+function getCSSPropertyWithSecondsValue(
+  elementHoldingCSSPropertyValue: HTMLElement
+) {
+  console.log(
+    "getComputedStyle(elementHoldingCSSPropertyValue).transitionDelay",
+    getComputedStyle(elementHoldingCSSPropertyValue).transitionDelay
+  );
+  return parseFloat(
+    getComputedStyle(elementHoldingCSSPropertyValue).transitionDelay.replace(
+      "s",
+      ""
+    )
+  );
+}
+
 function enterAndExitAnimations(
   enterElements: HTMLElement[],
-  exitElements: HTMLElement[]
+  exitElements: HTMLElement[],
+  delay?: { elementToGetValue: HTMLElement; type: "exit" | "enter" }
 ) {
   enum animationClasses {
     ENTER = "enterAnimation",
-    INVISIBLE = "invisible",
-    VISIBLE = "visible",
   }
 
   const enterClasses: string[] = [animationClasses.ENTER];
   const exitClasses: string[] = [];
 
-  for (const enterElement of enterElements) {
-    enterElement.classList.add(...enterClasses);
-    enterElement.classList.remove(...exitClasses);
+  const enterAnimationHandler = () => {
+    for (const enterElement of enterElements) {
+      enterElement.classList.remove(...exitClasses);
+      enterElement.classList.add(...enterClasses);
+    }
+  };
+
+  const exitAnimationHandler = () => {
+    for (const exitElement of exitElements) {
+      exitElement.classList.add(...exitClasses);
+      exitElement.classList.remove(...enterClasses);
+    }
+  };
+
+  if (delay?.type === "enter") {
+    setTimeout(
+      enterAnimationHandler,
+      getCSSPropertyWithSecondsValue(delay.elementToGetValue) * 1000
+    );
+  } else {
+    enterAnimationHandler();
   }
-  for (const exitElement of exitElements) {
-    exitElement.classList.add(...exitClasses);
-    exitElement.classList.remove(...enterClasses);
+
+  if (delay?.type === "exit") {
+    console.log(
+      "getCSSPropertyWithSecondsValue(delay.elementToGetValue) * 1000",
+      getCSSPropertyWithSecondsValue(delay.elementToGetValue) * 1000
+    );
+    setTimeout(
+      exitAnimationHandler,
+      getCSSPropertyWithSecondsValue(delay.elementToGetValue) * 1000
+    );
+  } else {
+    exitAnimationHandler();
   }
 }
 
