@@ -17,6 +17,7 @@ const accessPoetryVideoExitAnimationDelayElement = $(
 const individualContentElements = Array.from(
   contentElement.children
 ) as HTMLElement[];
+const goToMikePuzzleElement = $("#gotomikepuzzle");
 
 function start() {
   setTitleText();
@@ -111,6 +112,8 @@ function goBackToHomepage(): void {
   stopPoetryVideo();
 }
 
+function goToMikePuzzle() {}
+
 function addEventListeners(): void {
   const elementsToListeners: Array<
     [element: HTMLElement, event: string, eventHandler: () => void]
@@ -118,6 +121,7 @@ function addEventListeners(): void {
     [goToJoanaVideoElement, "click", goToJoanaVideo],
     [joanaVideoElement, "ended", joanaVideoEnded],
     [goBackToHomepageElement, "click", goBackToHomepage],
+    [goToMikePuzzleElement, "click", goToMikePuzzle],
   ];
 
   elementsToListeners.forEach(([element, event, eventHandler]) =>
