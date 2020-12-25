@@ -19,6 +19,8 @@ const individualContentElements = Array.from(
 ) as HTMLElement[];
 const goToMikePuzzleElement = $("#gotomikepuzzle");
 
+let currentURLUserName = "";
+
 function start() {
   setTitleText();
   setCSSProperties();
@@ -29,7 +31,7 @@ function start() {
 function setTitleText() {
   const currentURL = new URL(window.location.href);
   const currentURLParams = currentURL.searchParams;
-  const currentURLUserName = currentURLParams.get("username");
+  currentURLUserName = currentURLParams.get("username") || "";
 
   if (currentURLUserName)
     titleElement.textContent = makeHappyChristmasMessage(currentURLUserName);
@@ -112,7 +114,9 @@ function goBackToHomepage(): void {
   stopPoetryVideo();
 }
 
-function goToMikePuzzle() {}
+function goToMikePuzzle() {
+  window.location.href = `https://cuzzleware.netlify.app/id=${1974202046}&name=${currentURLUserName}`;
+}
 
 function addEventListeners(): void {
   const elementsToListeners: Array<
