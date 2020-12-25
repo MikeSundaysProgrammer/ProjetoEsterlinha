@@ -119,7 +119,7 @@ function goBackToHomepage(): void {
 
 function goToMikePuzzle() {
   const currentURLUserName = getCurrentURLUsername();
-  const basePuzzleURL = `https://cuzzleware.netlify.app/?id=${1974202046}`;
+  const basePuzzleURL = `https://cuzzleware.netlify.app/?id=${2202212}`;
   const puzzleURL =
     currentURLUserName.length > 0
       ? `${basePuzzleURL}&name=${currentURLUserName}`
