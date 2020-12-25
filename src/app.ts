@@ -28,11 +28,14 @@ function start() {
   startEnterAndExitAnimations();
 }
 
-function setTitleText() {
+function getCurrentURLUsername() {
   const currentURL = new URL(window.location.href);
   const currentURLParams = currentURL.searchParams;
-  currentURLUserName = currentURLParams.get("username") || "";
+  return currentURLParams.get("username") || "";
+}
 
+function setTitleText() {
+  const currentURLUserName = getCurrentURLUsername();
   if (currentURLUserName)
     titleElement.textContent = makeHappyChristmasMessage(currentURLUserName);
 }
@@ -115,7 +118,13 @@ function goBackToHomepage(): void {
 }
 
 function goToMikePuzzle() {
-  window.location.href = `https://cuzzleware.netlify.app/id=${1974202046}&name=${currentURLUserName}`;
+  const currentURLUserName = getCurrentURLUsername();
+  const basePuzzleURL = `https://cuzzleware.netlify.app/?id=${1974202046}`;
+  const puzzleURL =
+    currentURLUserName.length > 0
+      ? `${basePuzzleURL}&name=${currentURLUserName}`
+      : basePuzzleURL;
+  window.location.href = puzzleURL;
 }
 
 function addEventListeners(): void {
