@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Rochester&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Mountains+of+Christmas&display=swap");
 
 /* dear reader sorry for the ugly animation and layout code but since
   this is a small project no need to over-optimize. Maybe sass would
@@ -167,7 +167,7 @@ button {
   text-shadow: 0 2px 1px #747474, -1px 3px 1px #767676, -2px 5px 1px #787878;
 
   font-size: max(2.5rem, 3vw);
-  font-family: "Rochester", cursive;
+  font-family: "Mountains of Christmas", cursive;
 
   --halfTitleHeight: calc(var(--titleHeight) / 2);
   --negativeHalfTitleHeight: calc(-1 * var(--halfTitleHeight));
