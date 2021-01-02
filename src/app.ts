@@ -17,6 +17,9 @@ const accessPoetryVideoExitAnimationDelayElement = $(
 const individualContentElements = Array.from(
   contentElement.children
 ) as HTMLElement[];
+const goToMikePuzzleElement = $("#gotomikepuzzle");
+
+let currentURLUserName = "";
 
 function start() {
   setTitleText();
@@ -25,11 +28,14 @@ function start() {
   startEnterAndExitAnimations();
 }
 
-function setTitleText() {
+function getCurrentURLUsername() {
   const currentURL = new URL(window.location.href);
   const currentURLParams = currentURL.searchParams;
-  const currentURLUserName = currentURLParams.get("username");
+  return currentURLParams.get("username") || "";
+}
 
+function setTitleText() {
+  const currentURLUserName = getCurrentURLUsername();
   if (currentURLUserName)
     titleElement.textContent = makeHappyChristmasMessage(currentURLUserName);
 }
@@ -111,6 +117,16 @@ function goBackToHomepage(): void {
   stopPoetryVideo();
 }
 
+function goToMikePuzzle() {
+  const currentURLUserName = getCurrentURLUsername();
+  const basePuzzleURL = `https://cuzzleware.netlify.app/?id=${2202212}`;
+  const puzzleURL =
+    currentURLUserName.length > 0
+      ? `${basePuzzleURL}&name=${currentURLUserName}`
+      : basePuzzleURL;
+  window.location.href = puzzleURL;
+}
+
 function addEventListeners(): void {
   const elementsToListeners: Array<
     [element: HTMLElement, event: string, eventHandler: () => void]
@@ -118,6 +134,7 @@ function addEventListeners(): void {
     [goToJoanaVideoElement, "click", goToJoanaVideo],
     [joanaVideoElement, "ended", joanaVideoEnded],
     [goBackToHomepageElement, "click", goBackToHomepage],
+    [goToMikePuzzleElement, "click", goToMikePuzzle],
   ];
 
   elementsToListeners.forEach(([element, event, eventHandler]) =>
